@@ -242,7 +242,6 @@ export class PlayerPage implements OnInit {
 
     // Disable Tab view
     this.visibilityService.hideTabs();
-    this.visibilityService.hideMusicBar();
 
     /* =============================== VIEW MANIPULATION END =============================== */
 

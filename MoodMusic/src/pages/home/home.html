@@ -15,18 +15,18 @@
       <button ion-button clear magrin color="dark" (click)="goToRecentSongs()">See All</button>
       <hr>
     </div>
-    <div *ngIf="recentSongs">
+    <div *ngIf="recentSongs && recentSongs.length > 0">
       <ion-scroll scrollX="true" class="wide-as-needed">
         <div class="tile" *ngFor="let song of recentSongs" (click)="playRecentSong(song)">
           <div text-center>
-            <img src="http://lorempixel.com/100/100/abstract/">
+            <img src="http://lorempixel.com/100/100/abstract/{{ song.song.name }}/">
             <p>{{ song.song.name }}</p>
             <h6>{{ song.song.artistId }}</h6>
           </div>
         </div>
       </ion-scroll>
     </div>
-    <div *ngIf="!recentSongs">
+    <div *ngIf="recentSongs && recentSongs.length == 0">
       <h5 text-center>Listen to some music!</h5>
     </div>
   </div>
@@ -39,22 +39,22 @@
     <ion-scroll scrollX="true" class="wide-as-needed">
       <div class="tile" (click)="goToSelectedMood()">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/">
+          <img src="http://lorempixel.com/100/100/nature/Happy/">
           <h6>Happy</h6>
           <p>Improved</p>
         </div>
       </div>
       <div class="tile" (click)="goToSelectedMood()">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/">
-          <h6>Happy</h6>
-          <p>Improved</p>
+          <img src="http://lorempixel.com/100/100/nature/Euphoric/">
+          <h6>Euphoric</h6>
+          <p>Neutral</p>
         </div>
       </div>
       <div class="tile" (click)="goToSelectedMood()">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/">
-          <h6>Happy</h6>
+          <img src="http://lorempixel.com/100/100/nature/Sad/">
+          <h6>Sad</h6>
           <p>Improved</p>
         </div>
       </div>
