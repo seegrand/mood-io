@@ -75,8 +75,6 @@ export class ChangeMyMoodPage {
   ionViewDidEnter() {
     // Disable Tab view
     this.visibilityService.hideTabs();
-    this.visibilityService.hideMusicBar();
-    this.visibilityService.hideScrollContentMargin();
   }
 
   ionViewWillLeave() {

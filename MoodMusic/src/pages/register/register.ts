@@ -4,8 +4,12 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { LikedGenresPage } from '../liked-genres/liked-genres';
 
 import { AuthService } from '../../services/auth.service';
+import { LikertService } from '../../services/likert.service';
+
 import { LocalStorageService } from '../../services/utils/local-storage.service';
 import { VisibilityService } from '../../services/utils/visibility.service';
+
+import { Mood } from '../../model/mood';
 
 /**
  * Generated class for the Register page.
@@ -22,8 +26,6 @@ export class RegisterPage {
 
   validationPattern: RegExp = /^[a-zA-Z0-9_-]*$/;
 
-  loading: any;
-  alert: any;
   data: any = {};
 
   constructor(
@@ -32,31 +34,50 @@ export class RegisterPage {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     private authService: AuthService,
+    private likertService: LikertService,
     private visibilityService: VisibilityService,
-    private localStorageService: LocalStorageService) {
-      this.loading = this.loadingCtrl.create({
-        spinner: 'crescent',
-        content: 'Registering...'
-      });
-    }
+    private localStorageService: LocalStorageService) { }
 
   register() {
-    this.loading.present();
+    var loading = this.loadingCtrl.create({
+      spinner: 'crescent',
+      content: 'Registering...'
+    });
 
-    this.authService.register(this.data.username, this.data.password).subscribe((user) => {
-      this.loading.dismiss();
+    loading.present().then(() => {
 
-      if (user.ok) {
-        this.localStorageService.saveUserToken(user.token);
-        this.navCtrl.setRoot(LikedGenresPage, {}, { animate: true, direction: 'forward' });
-      } else {
-        this.alert = this.alertCtrl.create({
-          title: 'ERROR',
-          subTitle: "Uh-oh, something went wrong. Please try again.",
-          buttons: ['Dismiss']
-        });
-        this.alert.present();
-      }
+      this.authService.register(this.data.username, this.data.password).subscribe((user) => {
+        if (user.ok) {
+          this.localStorageService.saveUserToken(user.token);
+
+          this.localStorageService.saveCurrentMood(new Mood(1, 'Happy'));
+
+          // Get Likert Scale from the API
+          if (this.localStorageService.getLikertScale()) {
+            loading.dismiss();
+            this.navCtrl.push(LikedGenresPage, {}, { animate: true, direction: 'forward' });
+          } else {
+            this.likertService.getScale(user.token).subscribe((res) => {
+              if (res.ok) {
+                this.localStorageService.saveLikertScale(res.message);
+              }
+
+              loading.dismiss();
+              this.navCtrl.push(LikedGenresPage, {}, { animate: true, direction: 'forward' });
+            });
+          }
+        } else {
+          loading.dismiss();
+
+          var alert = this.alertCtrl.create({
+            title: 'ERROR',
+            subTitle: user.message,
+            buttons: ['Dismiss']
+          });
+
+          alert.present();
+        }
+      });
     });
   }
 
