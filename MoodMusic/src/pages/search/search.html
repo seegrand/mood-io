@@ -23,7 +23,7 @@
     <div class="loading-padding " text-center [hidden]="tracks">
       <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <button ion-item *ngFor="let track of tracks" (click)="songDetails($event, track)">
+    <button ion-item *ngFor="let track of tracks | search:term" (click)="songDetails($event, track)">
       <ion-thumbnail item-start (click)="playSong($event, track)">
         <button ion-button icon-only><ion-icon name="play"></ion-icon></button>
         <img src="http://lorempixel.com/100/100/nature/{{ track.cleanTitle }}/">

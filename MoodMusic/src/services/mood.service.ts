@@ -21,8 +21,8 @@ export class MoodService extends APIService {
 
   getMoods() {
     return this.http.get(this.BASE_URL + "/moods")
-                          .map((res:Response) => res.json())
-                          .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   getPaginatedMoods(moods: Mood[], pageSize: number) {
@@ -49,17 +49,39 @@ export class MoodService extends APIService {
 
   getRecentMoods() {
     return this.http.get(this.BASE_URL + "/moods")
-                          .map((res:Response) => res.json())
-                          .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   getTenRecentMoods(token) {
-
     var options = super.createAuthenticationRequestOptions(token);
 
     return this.http.get(this.BASE_URL + "/users/my/mood/previously", options)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getRecentMoodsLocal() {
+    return [
+      {
+        id: 1,
+        name: 'Happy',
+        improved: 'Improved',
+        data: new Date()
+      },
+      {
+        id: 2,
+        name: 'Sad',
+        improved: 'Improved',
+        data: new Date()
+      },
+      {
+        id: 3,
+        name: 'Euphoric',
+        improved: 'Neutral',
+        data: new Date()
+      }
+    ];
   }
 
 }

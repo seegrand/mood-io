@@ -31,6 +31,8 @@ export class SearchPage implements OnInit {
   // songs: Song[];
   tracks: Track[];
 
+  term: string;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
