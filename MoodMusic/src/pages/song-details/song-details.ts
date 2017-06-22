@@ -16,7 +16,7 @@ import { Track } from '../../model/track';
 })
 export class SongDetailsPage {
 
-  song: any
+  song: Track;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 

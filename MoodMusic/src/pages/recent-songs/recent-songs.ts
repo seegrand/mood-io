@@ -7,6 +7,7 @@ import { PlayerPage } from '../player/player';
 
 // Services
 import { SongService } from '../../services/song.service';
+import { LocalStorageService } from '../../services/utils/local-storage.service';
 
 // Models
 import { Track } from '../../model/track';
@@ -25,9 +26,14 @@ import { Track } from '../../model/track';
 })
 export class RecentSongsPage {
 
-  songs: [Track]
+  songs: Track[]
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private songService: SongService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private songService: SongService,
+    private localStorageService: LocalStorageService
+  ) {
   }
 
   playSong(event){
@@ -35,8 +41,8 @@ export class RecentSongsPage {
     this.navCtrl.push(PlayerPage);
   }
 
-  getSongs() {
-    return this.songService.getSongs().subscribe(songs => this.songs = songs.message);
+  getRecentSongs() {
+    return this.songService.getRecentSongs(this.localStorageService.getUserToken()).subscribe(songs => this.songs = songs.message);
   }
 
   songDetails(event, song) {
@@ -44,8 +50,12 @@ export class RecentSongsPage {
     this.navCtrl.push(SongDetailsPage, { song: song });
   }
 
+  ngOnInit() {
+    this.getRecentSongs();
+  }
+
   ionViewDidLoad() {
-    this.getSongs();
+
     console.log('ionViewDidLoad RecentSongs');
   }
 

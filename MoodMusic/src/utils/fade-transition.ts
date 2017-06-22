@@ -22,7 +22,6 @@ export class FadeTransition extends PageTransition {
     const backDirection = (opts.direction === 'back');
 
     if (enteringView) {
-      const enteringPageEle: Element = enteringView.pageRef().nativeElement;
 
       const enteringContent = new Animation(this.plt, enteringView.pageRef());
       this.add(enteringContent);
@@ -38,7 +37,6 @@ export class FadeTransition extends PageTransition {
     }
 
     if (leavingView && leavingView.pageRef()) {
-      const leavingPageEle: Element = leavingView.pageRef().nativeElement;
 
       const leavingContent = new Animation(this.plt, enteringView.pageRef());
       this.add(leavingContent);

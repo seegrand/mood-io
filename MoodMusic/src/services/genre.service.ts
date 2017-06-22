@@ -27,7 +27,6 @@ export class GenreService extends APIService {
 
   getPaginatedGenres(genres: Genre[], pageSize: number) {
     var paginatedGenres = [];
-    var pageIndex = 0;
 
     var page = [];
     var index = 0;

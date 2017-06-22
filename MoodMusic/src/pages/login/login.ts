@@ -26,8 +26,6 @@ export class LoginPage {
 
   validationPattern: RegExp = /^[a-zA-Z0-9_-]*$/;
 
-  loading: any;
-  alert: any;
   data: any = {};
 
   constructor(
@@ -38,63 +36,65 @@ export class LoginPage {
     private authService: AuthService,
     private likertService: LikertService,
     private visibilityService: VisibilityService,
-    private localStorageService: LocalStorageService) {
+    private localStorageService: LocalStorageService) {}
 
-    this.loading = this.loadingCtrl.create({
+  login() {
+    var loading = this.loadingCtrl.create({
       spinner: 'crescent',
       content: 'Logging in...'
     });
-  }
 
-  login() {
-    this.loading.present();
-    this.authService.login(this.data.username, this.data.password).subscribe((user) => {
-      if(user.ok){
-        this.localStorageService.saveUserToken(user.token);
+    loading.present().then(() => {
 
-        this.localStorageService.saveCurrentMood(new Mood(6, 'Cheerful'));
+      this.authService.login(this.data.username, this.data.password).subscribe((user) => {
+        if (user.ok) {
+          this.localStorageService.saveUserToken(user.token);
 
-        // Get Likert Scale from the API
-        if (!this.localStorageService.getLikertScale()) {
-          this.likertService.getScale(user.token).subscribe((res) => {
-            console.log(res);
+          this.localStorageService.saveCurrentMood(new Mood(1, 'Happy'));
 
-            if (res.ok) {
-              this.localStorageService.saveLikertScale(res.message);
-            }
-
-            this.loading.dismiss();
+          // Get Likert Scale from the API
+          if (this.localStorageService.getLikertScale()) {
+            loading.dismiss();
             this.navCtrl.push(TabsPage, {}, { animate: true, direction: 'forward' });
-          });
-          console.log(this.localStorageService.getLikertScale());
-        } else {
-          this.loading.dismiss();
-          this.navCtrl.push(TabsPage, {}, { animate: true, direction: 'forward' });
-        }
-      }
-      else {
-        this.loading.dismiss();
+          } else {
+            this.likertService.getScale(user.token).subscribe((res) => {
+              if (res.ok) {
+                this.localStorageService.saveLikertScale(res.message);
+              }
 
-        this.alert = this.alertCtrl.create({
-          title: 'Error',
-          subTitle: user.message,
-          buttons: ['Dismiss']
-        });
-        this.alert.present();
-      }
+              loading.dismiss();
+              this.navCtrl.push(TabsPage, {}, { animate: true, direction: 'forward' });
+            });
+          }
+        } else {
+          loading.dismiss();
+
+          var alert = this.alertCtrl.create({
+            title: 'ERROR',
+            subTitle: user.message,
+            buttons: ['Dismiss']
+          });
+
+          alert.present();
+        }
+      });
     });
   }
 
   forgotPassword() {
+    var alert = this.alertCtrl.create({
+      title: 'Ohooh!',
+      subTitle: 'That is a shame you forgot you password :(',
+      buttons: ['Yeah right!']
+    });
 
+    alert.present().then(value => {
+      console.log(value);
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Login');
-  }
-
-  ionViewDidEnter() {
-    this.visibilityService.hideScrollContentMargin();
   }
 
 }

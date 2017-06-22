@@ -17,13 +17,13 @@
   <ion-card>
     <div class="gradient">
       <div class="album-art">
-        <img src="http://lorempixel.com/200/200/nature/" alt="Album Art">
+        <img src="http://lorempixel.com/200/200/nature/{{ song.cleanTitle }}/" alt="Album Art">
       </div>
     </div>
     <ion-card-content>
-      <h1>{{ song.name }}</h1>
-      <h2>Queen</h2>
-      <h2>Queen is Back</h2>
+      <h1>{{ song.title }}</h1>
+      <h2>{{ song.artist }}</h2>
+      <!-- <h2>Queen is Back</h2> -->
       <button ion-button round>Play</button>
       <div class="details">
         <ion-row>

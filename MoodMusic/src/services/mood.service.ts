@@ -53,35 +53,13 @@ export class MoodService extends APIService {
                           .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  // getStaticMoods() {
-  //   return [{
-  //     name: "Happy",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Sad",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Anxious",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Nervous",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Excited",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Energetic",
-  //     placeholder: "http://placehold.it/85x85"
-  //   } , {
-  //     name: "Romance",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Depressed",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }, {
-  //     name: "Tired",
-  //     placeholder: "http://placehold.it/85x85"
-  //   }]
-  // }
+  getTenRecentMoods(token) {
+
+    var options = super.createAuthenticationRequestOptions(token);
+
+    return this.http.get(this.BASE_URL + "/users/my/mood/previously", options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
 
 }

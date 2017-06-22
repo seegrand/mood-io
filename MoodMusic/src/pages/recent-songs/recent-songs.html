@@ -15,16 +15,13 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>
-      Yesterday
-    </ion-list-header>
-    <button ion-item *ngFor="let song of songs" (click)="songDetails($event, song)">
+    <button ion-item *ngFor="let obj of songs" (click)="songDetails($event, song)">
       <ion-thumbnail item-start (click)="playSong($event)">
         <button ion-button icon-only><ion-icon name="play"></ion-icon></button>
         <img src="http://lorempixel.com/100/100/nature/">
       </ion-thumbnail>
-      <h2>{{ song.name }}</h2>
-      <h4>{{ song.artistId }}</h4>
+      <h2>{{ obj.song.name }}</h2>
+      <h4>{{ obj.song.artistId }}</h4>
       <!-- <p>Improved</p> -->
     </button>
   </ion-list>

@@ -15,15 +15,20 @@
       <button ion-button clear magrin color="dark" (click)="goToRecentSongs()">See All</button>
       <hr>
     </div>
-    <ion-scroll scrollX="true" class="wide-as-needed">
-      <div class="tile" *ngFor="let song of recentSongs" (click)="playRecentSong(song)">
-        <div text-center>
-          <img src="http://lorempixel.com/100/100/abstract/">
-          <p>{{ song.title }}</p>
-          <h6>{{ song.artist }}</h6>
+    <div *ngIf="recentTracks && recentTracks.length > 0">
+      <ion-scroll scrollX="true" class="wide-as-needed">
+        <div class="tile" *ngFor="let recentTrack of recentTracks" (click)="playRecentSong(recentTrack)">
+          <div text-center>
+            <img src="http://lorempixel.com/100/100/abstract/{{ recentTrack.cleanTitle }}/">
+            <p>{{ recentTrack.title }}</p>
+            <h6>{{ recentTrack.artist }}</h6>
+          </div>
         </div>
-      </div>
-    </ion-scroll>
+      </ion-scroll>
+    </div>
+    <div *ngIf="recentTracks && recentTracks.length == 0">
+      <h5 text-center>Listen to some music!</h5>
+    </div>
   </div>
   <div class="tile-holder">
     <div class="tile-header">
@@ -34,22 +39,22 @@
     <ion-scroll scrollX="true" class="wide-as-needed">
       <div class="tile" (click)="goToSelectedMood()">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/">
+          <img src="http://lorempixel.com/100/100/nature/Happy/">
           <h6>Happy</h6>
           <p>Improved</p>
         </div>
       </div>
       <div class="tile" (click)="goToSelectedMood()">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/">
-          <h6>Happy</h6>
-          <p>Improved</p>
+          <img src="http://lorempixel.com/100/100/nature/Euphoric/">
+          <h6>Euphoric</h6>
+          <p>Neutral</p>
         </div>
       </div>
       <div class="tile" (click)="goToSelectedMood()">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/">
-          <h6>Happy</h6>
+          <img src="http://lorempixel.com/100/100/nature/Sad/">
+          <h6>Sad</h6>
           <p>Improved</p>
         </div>
       </div>
