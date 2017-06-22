@@ -33,6 +33,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { APIService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { SongService } from '../services/song.service';
+import { ArtistService } from '../services/artist.service';
 import { GenreService } from '../services/genre.service';
 import { MoodService } from '../services/mood.service';
 import { LikertService } from '../services/likert.service';
@@ -100,6 +101,7 @@ import { FadeTransition } from '../utils/fade-transition';
     APIService,
     AuthService,
     SongService,
+    ArtistService,
     GenreService,
     MoodService,
     LikertService,

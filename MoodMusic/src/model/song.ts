@@ -7,4 +7,9 @@ export class Song {
   albumId: number;
   genreId: number;
   moodId: number;
+
+  artist: {
+    id: number;
+    name: string;
+  };
 }

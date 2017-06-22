@@ -8,10 +8,12 @@ import { MoodDetailsPage } from '../mood-details/mood-details';
 import { PlayerPage } from '../player/player';
 
 import { SongService } from '../../services/song.service';
+import { ArtistService } from '../../services/artist.service';
 import { MoodService } from '../../services/mood.service';
 import { LocalStorageService } from '../../services/utils/local-storage.service';
 import { VisibilityService } from '../../services/utils/visibility.service';
 
+import { Song } from '../../model/song';
 import { Track } from '../../model/track';
 
 @Component({
@@ -20,12 +22,13 @@ import { Track } from '../../model/track';
 })
 export class HomePage {
 
-  private recentSongs: Track[];
+  private recentTracks: Track[];
   private recentMoods;
 
   constructor(
     public navCtrl: NavController,
     private songService: SongService,
+    private artistService: ArtistService,
     private moodService: MoodService,
     private localStorageService: LocalStorageService,
     private visibilityService: VisibilityService
@@ -85,7 +88,23 @@ export class HomePage {
   */
 
   getRecentSongs() {
-    this.songService.getTenRecentSongs(this.localStorageService.getUserToken()).subscribe(songs => this.recentSongs = songs.message);
+    this.songService.getTenRecentSongs(this.localStorageService.getUserToken()).subscribe((res) => {
+      var recentSongs = res.message;
+      this.recentTracks = [];
+
+      for (let recentSong of recentSongs) {
+        var track: Track = this.songService.convertSongToTrack(<Song> recentSong.song);
+
+        if (!track.artist) {
+          this.artistService.getArtist(recentSong.song.artistId).subscribe((res) => {
+            track.artist = res.message.name;
+            this.recentTracks.push(track);
+          });
+        } else {
+          this.recentTracks.push(track);
+        }
+      }
+    });
   }
 
   goToRecentSongs() {
@@ -93,6 +112,8 @@ export class HomePage {
   }
 
   playRecentSong(song: Track) {
+    this.songService.getSong(song.trackId, this.localStorageService.getUserToken()).subscribe((res) => { console.log(res); });
+
     var data = {
       playlist: song
     };
