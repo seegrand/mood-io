@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Rx';
 
 import { APIService } from './api.service';
 
+import { Song } from '../model/song';
+import { Track } from '../model/track';
+
 /*
   Generated class for the Genre Service.
 
@@ -20,13 +23,35 @@ export class SongService extends APIService {
     super(http);
   }
 
-  getSongs() {
+  getMusicFileServiceURL(): string {
+    return 'http://nas1.tyil.net';
+  }
+
+  convertSongToTrack(song: Song): Track {
+    var track: Track = new Track();
+
+    console.log(song);
+
+    track.trackId = song.id;
+    track.title = song.name;
+    track.cleanTitle = song.name.replace(/[|&;$%@"'<>()+,]/g, "");
+
+    track.src = this.getMusicFileServiceURL() + encodeURI(song.path);
+
+    if (song.artist) {
+      track.artist = song.artist.name;
+    }
+
+    return track;
+  }
+
+  getSongs(): Observable<any> {
     return this.http.get(this.BASE_URL + "/songs")
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getRecentSongs(token) {
+  getRecentSongs(token): Observable<any> {
 
     var options = super.createAuthenticationRequestOptions(token);
 
@@ -36,11 +61,19 @@ export class SongService extends APIService {
 
   }
 
-  getTenRecentSongs(token) {
+  getTenRecentSongs(token): Observable<any> {
 
     var options = super.createAuthenticationRequestOptions(token);
 
     return this.http.get(this.BASE_URL + '/songs/recent/' + this.limit, options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
+  }
+
+  getSong(id: number, token: string): Observable<any> {
+    var options = super.createAuthenticationRequestOptions(token);
+
+    return this.http.get(this.BASE_URL + '/songs/' + id, options)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }

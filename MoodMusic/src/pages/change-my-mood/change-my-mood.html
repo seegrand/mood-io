@@ -27,7 +27,7 @@
           <div class="slide-tile" *ngFor="let mood of moodPage">
             <label>
               <input type="radio" name="mood" value="small" (click)="currentMood(mood)">
-              <img src="http://lorempixel.com/100/100/abstract/">
+              <img src="http://lorempixel.com/100/100/abstract/{{ mood.name }}/">
             </label>
             <p>{{ mood.name }}</p>
           </div>

@@ -18,18 +18,18 @@
     <ion-label><ion-icon name="search"></ion-icon></ion-label>
     <ion-input [(ngModel)]="term" type="text" placeholder="Search"></ion-input>
   </ion-item>
-  <h4 *ngIf="!songs" text-center>Looking for something specific?</h4>
-  <ion-list *ngIf="songs">
-    <div class="loading-padding " text-center [hidden]="songs">
+  <h4 *ngIf="tracks && tracks.length == 0" text-center>Looking for something specific?</h4>
+  <ion-list *ngIf="tracks && tracks.length > 0">
+    <div class="loading-padding " text-center [hidden]="tracks">
       <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <button ion-item *ngFor="let song of songs" (click)="songDetails($event, song)">
-      <ion-thumbnail item-start (click)="playSong($event, song)">
+    <button ion-item *ngFor="let track of tracks" (click)="songDetails($event, track)">
+      <ion-thumbnail item-start (click)="playSong($event, track)">
         <button ion-button icon-only><ion-icon name="play"></ion-icon></button>
-        <img src="http://lorempixel.com/100/100/nature/">
+        <img src="http://lorempixel.com/100/100/nature/{{ track.cleanTitle }}/">
       </ion-thumbnail>
-      <h2>{{ song.name }}</h2>
-      <h4>{{ song.artistId }}</h4>
+      <h2>{{ track.title }}</h2>
+      <h4>{{ track.artist }}</h4>
       <!-- <p>Improved</p> -->
     </button>
   </ion-list>
