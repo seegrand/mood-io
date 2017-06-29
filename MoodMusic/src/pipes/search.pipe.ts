@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-import { Song } from '../model/song';
+import { Track } from '../model/track';
 
 @Pipe({
     name: 'search'
@@ -8,12 +8,22 @@ import { Song } from '../model/song';
 
 export class SearchPipe implements PipeTransform{
 
-    transform(songs: Song[], term: string){
+    transform(songs: Track[], term: string) {
+
+      console.log(term);
 
         if (!term) return songs;
 
-        return songs.filter(function(song){
-          return song.name.toLowerCase().includes(term.toLowerCase());
+        return songs.filter(function(song) {
+          var include = false;
+
+          if (song.title.toLowerCase().includes(term.toLowerCase())) {
+            include = true;
+          } else if (song.title.toLowerCase().includes(term.toLowerCase())) {
+            include = true;
+          }
+
+          return include;
         });
     }
 }

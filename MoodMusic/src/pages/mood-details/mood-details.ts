@@ -16,19 +16,16 @@ import { PlayerPage } from '../player/player';
 })
 export class MoodDetailsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  mood: any;
 
-  public mood = {
-    'name': 'Happy',
-    'img': 'http://lorempixel.com/150/150/nature/',
-    'helpfulness': 'Improved',
-    'date': new Date()
-  };
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    if (this.navParams.get('mood')) {
+      this.mood = this.navParams.get('mood');
+    }
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MoodDetails');
-    return this.mood;
   }
 
   playSong() {

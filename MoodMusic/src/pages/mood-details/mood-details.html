@@ -14,14 +14,14 @@
 
 <ion-content>
   <div class="detail-img" margin>
-    <img src="{{ mood.img }}" alt="Happy Image">
+    <img src="http://lorempixel.com/150/150/nature/{{ mood.name }}/" alt="Happy Image">
   </div>
   <ion-card>
     <ion-card-header>
       <h1>{{ mood.name }}</h1>
     </ion-card-header>
     <ion-card-content>
-      <h2>{{ mood.helpfulness }}</h2>
+      <h2>{{ mood.improved }}</h2>
       <h3 margin>{{ mood.date | date: 'longDate'}} - {{ mood.date | date: 'shortTime' }}</h3>
     </ion-card-content>
   </ion-card>

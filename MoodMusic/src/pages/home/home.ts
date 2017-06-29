@@ -127,14 +127,19 @@ export class HomePage {
 
   getRecentMoods() {
     // this.moodService.getTenRecentMoods(this.localStorageService.getUserToken()).subscribe(moods => this.recentMoods = moods.message);
+    this.recentMoods = this.moodService.getRecentMoodsLocal();
   }
 
   goToRecentMoods() {
     this.navCtrl.push(RecentMoodsPage);
   }
 
-  goToSelectedMood() {
-    this.navCtrl.push(MoodDetailsPage);
+  goToSelectedMood(data) {
+    var mood = {
+      mood: data
+    }
+
+    this.navCtrl.push(MoodDetailsPage, mood);
   }
 
   /*

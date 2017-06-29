@@ -33,29 +33,15 @@
   <div class="tile-holder">
     <div class="tile-header">
       <h4>Recent Moods</h4>
-      <button ion-button clear magrin color="dark" (click)="goToRecentMoods()">See All</button>
+      <button ion-button clear magrin color="dark" (click)="goToRecentMoods(recentMoods)">See All</button>
       <hr>
     </div>
     <ion-scroll scrollX="true" class="wide-as-needed">
-      <div class="tile" (click)="goToSelectedMood()">
+      <div class="tile" *ngFor="let recentMood of recentMoods" (click)="goToSelectedMood(recentMood)">
         <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/Happy/">
-          <h6>Happy</h6>
-          <p>Improved</p>
-        </div>
-      </div>
-      <div class="tile" (click)="goToSelectedMood()">
-        <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/Euphoric/">
-          <h6>Euphoric</h6>
-          <p>Neutral</p>
-        </div>
-      </div>
-      <div class="tile" (click)="goToSelectedMood()">
-        <div text-center>
-          <img src="http://lorempixel.com/100/100/nature/Sad/">
-          <h6>Sad</h6>
-          <p>Improved</p>
+          <img src="http://lorempixel.com/100/100/nature/{{ recentMood.name }}/">
+          <h6>{{ recentMood.name }}</h6>
+          <p>{{ recentMood.improved }}</p>
         </div>
       </div>
     </ion-scroll>

@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { MoodDetailsPage } from '../mood-details/mood-details';
 
+import { MoodService } from '../../services/mood.service';
+
 /**
  * Generated class for the RecentMoods page.
  *
@@ -16,17 +18,24 @@ import { MoodDetailsPage } from '../mood-details/mood-details';
 })
 export class RecentMoodsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  recentMoods: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private moodService: MoodService) {
+    this.recentMoods = this.moodService.getRecentMoodsLocal();
   }
 
-  moodDetails() {
+  moodDetails(data) {
 
     // TODO:
     // [GET] Mood Details - https://mood-io.herokuapp.com/moods/:id
     // Pass mood id as parameter.
     // This route is not yet implemented.
 
-    this.navCtrl.push(MoodDetailsPage);
+    var mood = {
+      mood: data
+    }
+
+    this.navCtrl.push(MoodDetailsPage, mood);
 
   }
 
