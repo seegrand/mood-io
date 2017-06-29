@@ -69,7 +69,7 @@ export class HomePage {
     console.log('ionViewDidLoad Home');
   }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.getRecentSongs();
     this.getRecentMoods();
     console.log("Hello World!");
